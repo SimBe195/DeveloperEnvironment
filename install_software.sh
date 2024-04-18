@@ -16,6 +16,8 @@ install_software() {
 
 install_ohmyzsh() {
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 }
 
 install_catppuccin_zsh() {
@@ -24,12 +26,20 @@ install_catppuccin_zsh() {
 }
 
 install_neovim() {
-	curl -LO "https://github.com/neovim/neovim/releases/latest/download/nvim.appimage"
-	chmod u+x nvim.appimage
-	./nvim.appimage --appimage-extract
-	mv squashfs-root $HOME/nvim
-	ln -s $HOME/nvim/AppRun $HOME/bin/nv
-	rm nvim.appimage
+	if [ "$(uname)" == "Darwin" ] ; then
+		curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz
+		tar xzf nvim-macos-arm64.tar.gz
+		rm nvim-macos-arm64.tar.gz
+		mv nvim-macos-arm64 $HOME/nvim
+		ln -s $HOME/nvim/bin/nvim $HOME/bin/nv
+	else
+		curl -LO "https://github.com/neovim/neovim/releases/latest/download/nvim.appimage"
+		chmod u+x nvim.appimage
+		./nvim.appimage --appimage-extract
+		mv squashfs-root $HOME/nvim
+		ln -s $HOME/nvim/AppRun $HOME/bin/nv
+		rm nvim.appimage
+	fi
 }
 
 install_nodejs() {
@@ -39,11 +49,15 @@ install_nodejs() {
 }
 
 install_lazygit() {
-	LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-	curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-	tar xf lazygit.tar.gz lazygit
-	install lazygit $HOME/bin
-	rm -r lazygit lazygit.tar.gz
+	if command -v brew &>/dev/null; then
+		brew install jesseduffield/lazygit/lazygit
+	else
+		LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+		curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+		tar xf lazygit.tar.gz lazygit
+		install lazygit $HOME/bin
+		rm -r lazygit lazygit.tar.gz
+	fi
 }
 
 install_gdu() {
@@ -70,9 +84,9 @@ install_software "oh-my-zsh" $INSTALL_OHMYZSH "install_ohmyzsh"
 install_software "Catppuccin zsh-syntax-highlighting" $INSTALL_CATPPUCCIN_ZSH "install_catppuccin_zsh"
 install_software "tmux" $INSTALL_TMUX "$PKGMGR install tmux"
 install_software "tmux plugin manager (tpm)" $INSTALL_TPM "git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm"
-install_software "starship" $INSTALL_STARSHIP "mkdir -p $HOME/bin && curl -sS https://starship.rs/install.sh | sh -s -- -b $HOME/bin"
+install_software "starship" $INSTALL_STARSHIP "mkdir -p $HOME/bin && curl -sS https://starship.rs/install.sh | sh -s -- -b $HOME/bin -y"
 install_software "NeoVim" $INSTALL_NVIM "install_neovim"
-install_software "Cargo" $INSTALL_CARGO "curl https://sh.rustup.rs -sSf | sh && source $HOME/.cargo/env"
+install_software "Cargo" $INSTALL_CARGO "curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path -y && source $HOME/.cargo/env"
 install_software "Node.js" $INSTALL_NODE "install_nodejs"
 install_software "TLDR" $INSTALL_TLDR "npm install -g tldr"
 install_software "LazyGit" $INSTALL_LAZYGIT "install_lazygit"
