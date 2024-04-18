@@ -124,5 +124,5 @@ export INSTALL_STARSHIP_CONFIG=$(ask_install "Install starship prompt config")
 # Call installation sub-scripts
 BASE_DIR=$(dirname "$(readlink -f "%0")")
 
-$BASE_DIR/install_configs.sh
 $BASE_DIR/install_software.sh
+$BASE_DIR/install_configs.sh
