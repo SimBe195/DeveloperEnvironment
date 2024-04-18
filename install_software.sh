@@ -14,6 +14,10 @@ install_software() {
 	fi
 }
 
+install_ohmyzsh() {
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+}
+
 install_catppuccin_zsh() {
 	curl -LO "https://raw.githubusercontent.com/catppuccin/zsh-syntax-highlighting/main/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh"
 	mv catppuccin_mocha-zsh-syntax-highlighting.zsh $HOME/.oh-my-zsh/custom/
@@ -25,6 +29,13 @@ install_neovim() {
 	./nvim.appimage --appimage-extract
 	mv squashfs-root $HOME/nvim
 	ln -s $HOME/nvim/AppRun $HOME/bin/nv
+	rm nvim.appimage
+}
+
+install_nodejs() {
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+	[ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh" # This loads nvm
+	nvm install node
 }
 
 install_lazygit() {
@@ -55,14 +66,14 @@ fi
 PATH=$HOME/bin:$PATH
 
 install_software "zsh" $INSTALL_ZSH "$PKGMGR install zsh"
-install_software "oh-my-zsh" $INSTALL_OHMYZSH "sh -c $(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+install_software "oh-my-zsh" $INSTALL_OHMYZSH "install_ohmyzsh"
 install_software "Catppuccin zsh-syntax-highlighting" $INSTALL_CATPPUCCIN_ZSH "install_catppuccin_zsh"
 install_software "tmux" $INSTALL_TMUX "$PKGMGR install tmux"
 install_software "tmux plugin manager (tpm)" $INSTALL_TPM "git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm"
 install_software "starship" $INSTALL_STARSHIP "mkdir -p $HOME/bin && curl -sS https://starship.rs/install.sh | sh -s -- -b $HOME/bin"
 install_software "NeoVim" $INSTALL_NVIM "install_neovim"
 install_software "Cargo" $INSTALL_CARGO "curl https://sh.rustup.rs -sSf | sh && source $HOME/.cargo/env"
-install_software "Node.js" $INSTALL_NODE "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash && nvm install node"
+install_software "Node.js" $INSTALL_NODE "install_nodejs"
 install_software "TLDR" $INSTALL_TLDR "npm install -g tldr"
 install_software "LazyGit" $INSTALL_LAZYGIT "install_lazygit"
 install_software "GDU" $INSTALL_GDU "install_gdu"
