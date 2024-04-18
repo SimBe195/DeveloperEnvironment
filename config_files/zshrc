@@ -1,0 +1,78 @@
+# Use hyphen-insensitive completion. Case-sensitive completion must be off. _ and - will be interchangeable.
+HYPHEN_INSENSITIVE="true"
+
+# Change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+HIST_STAMPS="dd.mm.yyyy"
+
+if [ -f $HOME/.oh-my-zsh/custom/catppuccin_mocha-zsh-syntax-highlighting.zsh ]; then
+  source $HOME/.oh-my-zsh/custom/catppuccin_mocha-zsh-syntax-highlighting.zsh
+fi
+
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+plugins=(
+  dirhistory
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  tmux
+  git
+)
+
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US
+export LC_ADDRESS="de_DE.UTF-8"
+export LC_MEASUREMENT="de_DE.UTF-8"
+export LC_MONETARY="de_DE.UTF-8"
+export LC_PAPER="de_DE.UTF-8"
+export LC_TELEPHONE="de_DE.UTF-8"
+export LC_TIME="de_DE.UTF-8"
+
+# Preferred editor for local and remote sessions
+export EDITOR='nv'
+
+export PATH=$HOME/bin:$PATH
+
+export SINGULARITYENV_DISPLAY=$DISPLAY
+export APPTAINERENV_DISPLAY=$DISPLAY
+
+if [ -f $HOME/.cargo/env ]; then
+  source $HOME/.cargo/env
+fi
+
+if [ -d $HOME/.nvm ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
+
+if command -v nala &>/dev/null; then
+  global apt() {
+    command nala "$@"
+  }
+fi
+
+sudo() {
+  if [ "$1" = "apt" && command -v nala &>/dev/null ]; then
+    shift
+    command sudo nala "$@"
+  else
+    command sudo "$@"
+  fi
+}
+
+# Starship prompt. Configured in ~/.config/starship.toml
+if command -v starship &>/dev/null; then
+  eval "$(starship init zsh)"
+fi
+
