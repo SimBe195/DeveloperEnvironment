@@ -38,12 +38,14 @@ clone_repo() {
 		echo "Cloning $REPO to $DEST..."
 		if [ -e $DEST ]; then
 			echo "Destination $DEST already exists. How to proceed?" >&2
-			echo " 1) Create backup $DEST.bak and symlink anyway" >&2
+			echo " 1) Create backup $DEST.bak and create new symlink" >&2
+			echo " 2) Overwrite $DEST and create new symlink" >&2
 			echo " 2) Skip" >&2
 			echo -n "Select an option: " >&2
 			read -r choice
 			case $choice in
 			1) mv "$DEST" "$DEST.bak" && git clone $REPO $DEST ;;
+			1) rm -rf "$DEST" && git clone $REPO $DEST ;;
 			*) echo "Skipping." ;;
 			esac
 		else
