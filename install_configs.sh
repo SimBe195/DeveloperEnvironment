@@ -17,7 +17,7 @@ create_symlink() {
 			read -r choice
 			case $choice in
 			1) mv "$DEST" "$DEST.bak" && ln -s $SRC $DEST ;;
-			1) rm -rf "$DEST" && ln -s $SRC $DEST ;;
+			2) rm -rf "$DEST" && ln -s $SRC $DEST ;;
 			*) echo "Skipping." ;;
 			esac
 		else
@@ -45,7 +45,7 @@ clone_repo() {
 			read -r choice
 			case $choice in
 			1) mv "$DEST" "$DEST.bak" && git clone $REPO $DEST ;;
-			1) rm -rf "$DEST" && git clone $REPO $DEST ;;
+			2) rm -rf "$DEST" && git clone $REPO $DEST ;;
 			*) echo "Skipping." ;;
 			esac
 		else
