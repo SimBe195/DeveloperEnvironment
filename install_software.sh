@@ -69,20 +69,23 @@ install_gdu() {
 install_software "Homebrew" $INSTALL_HOMEBREW "/bin/bash -c $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 install_software "Nala" $INSTALL_NALA "sudo apt install nala"
 
-PKGMGR="sudo apt"
+PKGMGR="sudo apt install"
 if command -v brew &>/dev/null; then
-	PKGMGR="brew"
+	PKGMGR="brew install"
 fi
 if command -v nala &>/dev/null; then
-	PKGMGR="sudo nala"
+	PKGMGR="sudo nala install"
+fi
+if command -v yay &>/dev/null; then
+	PKGMGR="sudo yay"
 fi
 
 PATH=$HOME/bin:$PATH
 
-install_software "zsh" $INSTALL_ZSH "$PKGMGR install zsh"
+install_software "zsh" $INSTALL_ZSH "$PKGMGR zsh"
 install_software "oh-my-zsh" $INSTALL_OHMYZSH "install_ohmyzsh"
 install_software "Catppuccin zsh-syntax-highlighting" $INSTALL_CATPPUCCIN_ZSH "install_catppuccin_zsh"
-install_software "tmux" $INSTALL_TMUX "$PKGMGR install tmux"
+install_software "tmux" $INSTALL_TMUX "$PKGMGR tmux"
 install_software "tmux plugin manager (tpm)" $INSTALL_TPM "git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm"
 install_software "starship" $INSTALL_STARSHIP "mkdir -p $HOME/bin && curl -sS https://starship.rs/install.sh | sh -s -- -b $HOME/bin -y"
 install_software "NeoVim" $INSTALL_NVIM "install_neovim"
