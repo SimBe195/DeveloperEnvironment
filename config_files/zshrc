@@ -56,21 +56,6 @@ if [ -d $HOME/.nvm ]; then
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
 
-if command -v nala &>/dev/null; then
-  global apt() {
-    command nala "$@"
-  }
-fi
-
-sudo() {
-  if [ "$1" = "apt" && command -v nala &>/dev/null ]; then
-    shift
-    command sudo nala "$@"
-  else
-    command sudo "$@"
-  fi
-}
-
 # Starship prompt. Configured in ~/.config/starship.toml
 if command -v starship &>/dev/null; then
   eval "$(starship init zsh)"

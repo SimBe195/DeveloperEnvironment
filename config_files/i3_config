@@ -9,16 +9,15 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod1
+set $mod Mod4
 
-exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh
-exec feh --bg-fill ~/Pictures/stable_diffusion/00003-2421192502.png
+exec_always ~/bin/i3_startup.sh
+exec_always --no-startup-id alternating_layouts.py
+
 bindsym $mod+space exec rofi -show combi
+bindsym $mod+Escape exec rofi -show p -modi p:'rofi-power-menu --symbols-font "Meslo LGM NF"' -font "Noto Sans 16"
 
 exec --no-startup-id picom
-
-exec xrandr --output DP-2 --mode 1920x1080 --rate 60 --scale 1.3333x1.3333 --pos 0x0 --output DP-1 --mode 2560x1440 --rate 144 --scale 1x1 --pos 2560x0 --primary
-exec xset r rate 200 100
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -202,20 +201,11 @@ for_window [class="^.*"] border pixel 2
 default_border pixel 2
 default_floating_border pixel 2
 
-set $Locker i3lock && sleep 1
+bindsym $mod+minus scratchpad show
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+Control+1 exec 'xrandr --output DP-0 --mode 2560x1440 --rate 144 --scale 1x1 --pos 2560x0 --primary'
+bindsym $mod+Control+2 exec 'xrandr --output DP-3 --mode 1920x1080 --rate 60 --scale 1.3333x1.3333 --pos 0x0 --output DP-0 --mode 2560x1440 --rate 144 --scale 1x1 --pos 2560x0 --primary'
+bindsym $mod+Control+3 exec 'xrandr --output DP-3 --mode 1920x1080 --rate 60 --scale 1.3333x1.3333 --pos 0x0 --output DP-0 --mode 2560x1440 --rate 144 --scale 1x1 --pos 2560x0 --primary --output HDMI-0 --mode 1920x1080 --rate 60 --scale 1x1 --post 5120x0'
 
-set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
-mode "$mode_system" {
-    bindsym l exec --no-startup-id $Locker, mode "default"
-    bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
-    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
-
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-
-bindsym $mod+Escape mode "$mode_system"
+gaps inner 10px
+gaps outer 5px

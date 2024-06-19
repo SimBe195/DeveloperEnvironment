@@ -1,3 +1,4 @@
+alias ssh="kitten ssh"
 alias sshat='ssh -L 8080:127.0.0.1:8080 -Y sberger@10.5.120.1'
 alias sshat1='ssh -L 8080:127.0.0.1:8080 -Y sberger@10.5.120.1'
 alias sshat2='ssh -L 8080:127.0.0.1:8080 -Y sberger@10.5.120.2'
