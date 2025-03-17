@@ -41,7 +41,7 @@ export LC_TIME="de_DE.UTF-8"
 # Preferred editor for local and remote sessions
 export EDITOR='nv'
 
-export PATH=$HOME/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 
 export SINGULARITYENV_DISPLAY=$DISPLAY
 export APPTAINERENV_DISPLAY=$DISPLAY
@@ -61,3 +61,13 @@ if command -v starship &>/dev/null; then
   eval "$(starship init zsh)"
 fi
 
+# >>> juliaup initialize >>>
+
+# !! Contents within this block are managed by juliaup !!
+
+path=('/home/simon/.juliaup/bin' $path)
+export PATH
+
+# <<< juliaup initialize <<<
+
+eval "$(uv generate-shell-completion zsh)"
