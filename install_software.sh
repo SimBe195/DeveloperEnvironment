@@ -33,12 +33,12 @@ install_neovim() {
 		mv nvim-macos-arm64 $HOME/nvim
 		ln -s $HOME/nvim/bin/nvim $HOME/bin/nv
 	else
-		curl -LO "https://github.com/neovim/neovim/releases/latest/download/nvim.appimage"
-		chmod u+x nvim.appimage
-		./nvim.appimage --appimage-extract
+		curl -LO "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage"
+		chmod u+x nvim-linux-x86_64.appimage
+		./nvim-linux-x86_64.appimage --appimage-extract
 		mv squashfs-root $HOME/nvim
 		ln -s $HOME/nvim/AppRun $HOME/bin/nv
-		rm nvim.appimage
+		rm nvim-linux-x86_64.appimage
 	fi
 }
 
