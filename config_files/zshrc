@@ -39,7 +39,7 @@ export LC_TELEPHONE="de_DE.UTF-8"
 export LC_TIME="de_DE.UTF-8"
 
 # Preferred editor for local and remote sessions
-export EDITOR='nv'
+export EDITOR='~/bin/nv'
 
 export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 
