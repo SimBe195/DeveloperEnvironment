@@ -1,10 +1,13 @@
 alias ssh="kitten ssh"
-alias tmux='TERM=tmux-256color tmux'
-alias sshat='ssh -L 8080:127.0.0.1:8080 -Y sberger@10.5.120.1'
-alias sshat1='ssh -L 8080:127.0.0.1:8080 -Y sberger@10.5.120.1'
-alias sshat2='ssh -L 8080:127.0.0.1:8080 -Y sberger@10.5.120.2'
-alias sshi6='ssh -L 8080:127.0.0.1:8080 -Y cadmium'
+# alias tmux='TERM=tmux-256color tmux'
+alias sshat='ssh -L 8081:127.0.0.1:8081 -Y sberger@10.5.120.1'
+alias sshat1='ssh -L 8081:127.0.0.1:8081 -Y sberger@10.5.120.1'
+alias sshat2='ssh -L 8082:127.0.0.1:8082 -Y sberger@10.5.120.2'
+alias sshi6='ssh -L 8083:127.0.0.1:8083 -Y cadmium'
 alias icat='kitten icat'
+alias cat='bat'
+alias apptalk-db='minikube start && kubectl port-forward -n apptalk-dev svc/apptalk-datastores-postgres 5432:5432 &'
+alias yay-update='yay -Syu --noconfirm'
 
 # scp functions #
 scpfromat(){

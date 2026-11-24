@@ -54,6 +54,29 @@ if [ -d $HOME/.nvm ]; then
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+  # Switch Node to whatever a project pins in .nvmrc on entering its directory, and back to the
+  # default on leaving. Without this the default alias (the newest installed version) is used
+  # everywhere, and a project that needs an older Node fails in ways that look like its own bug.
+  autoload -U add-zsh-hook
+  load-nvmrc() {
+    local nvmrc_path
+    nvmrc_path=$(nvm_find_nvmrc)
+    if [ -n "$nvmrc_path" ]; then
+      local nvmrc_node_version
+      nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+      if [ "$nvmrc_node_version" = "N/A" ]; then
+        nvm install
+      elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+        nvm use
+      fi
+    elif [ "$(nvm version)" != "$(nvm version default)" ]; then
+      echo "Reverting to the default Node version"
+      nvm use default
+    fi
+  }
+  add-zsh-hook chpwd load-nvmrc
+  load-nvmrc
 fi
 
 # Starship prompt. Configured in ~/.config/starship.toml
@@ -71,3 +94,20 @@ export PATH
 # <<< juliaup initialize <<<
 
 eval "$(uv generate-shell-completion zsh)"
+
+#compdef dstask
+#autoload
+
+
+_dstask() {
+    compadd -- $(dstask _completions "${words[@]}")
+}
+
+compdef _dstask dstask
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/simon/.local/bin:$PATH"
