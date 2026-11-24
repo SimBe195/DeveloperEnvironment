@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Config links for install.sh. A config is only offered when its tool is installed or about to be,
 # and only when its links are not already in place. Files a link would replace are moved to
 # $BACKUP_DIR.
@@ -64,7 +65,7 @@ plan_agent_config() {
 	stale=$(stale_links "$HOME/.claude/skills")
 	if [[ -n $stale ]]; then
 		# shellcheck disable=SC2086 # one path per line, none with spaces
-		offer stale-skills "Remove links to deleted skills: $(echo $stale)?" rm $stale
+		offer stale-skills "Remove links to deleted skills: ${stale//$'\n'/ }?" rm $stale
 	fi
 }
 

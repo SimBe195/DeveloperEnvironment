@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Tool definitions for install.sh.
 #
 # Each plan_* function checks one tool and offers only what is possible: installing it when missing,

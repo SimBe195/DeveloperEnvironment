@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Helpers shared by install.sh. Kept compatible with bash 3.2, the version macOS ships.
 
 die() {
@@ -59,11 +60,13 @@ run_actions() {
 	for i in "${!ACTION_CMDS[@]}"; do
 		printf '\n==> %s\n' "${ACTION_DESCS[i]}"
 		tmp=$(mktemp -d)
+		# Not "if ! ( ... )": in a condition, set -e has no effect inside the subshell.
 		(
 			set -e
 			cd "$tmp"
 			eval "${ACTION_CMDS[i]}"
 		)
+		# shellcheck disable=SC2181
 		if [[ $? -ne 0 ]]; then
 			failures+=("${ACTION_DESCS[i]}")
 		fi
@@ -79,6 +82,7 @@ run_actions() {
 
 # Platform: PLATFORM is arch, macos or local (user-local installs without root). PM is the package
 # manager used for PLATFORM, empty for local.
+# shellcheck disable=SC2034 # the variables set here are used in tools.sh and configs.sh
 detect_platform() {
 	case "$(uname -s)" in
 	Darwin) OS=darwin ;;
