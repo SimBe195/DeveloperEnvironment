@@ -57,7 +57,7 @@ clone_repo() {
 }
 
 # Symlink configuration files based on installation choices
-BASE_DIR=$(dirname "$(readlink -f "%0")")
+BASE_DIR=$(dirname "$(readlink -f "$0")")
 echo $BASE_DIR
 
 create_symlink $INSTALL_ZSH_CONFIG $BASE_DIR/config_files/zshrc $HOME/.zshrc
