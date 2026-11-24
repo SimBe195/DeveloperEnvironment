@@ -1,11 +1,14 @@
-alias ssh="kitten ssh"
-# alias tmux='TERM=tmux-256color tmux'
+if command -v kitten &>/dev/null; then
+  alias ssh="kitten ssh"
+  alias icat='kitten icat'
+fi
+if command -v bat &>/dev/null; then
+  alias cat='bat'
+fi
 alias sshat='ssh -L 8081:127.0.0.1:8081 -Y sberger@10.5.120.1'
 alias sshat1='ssh -L 8081:127.0.0.1:8081 -Y sberger@10.5.120.1'
 alias sshat2='ssh -L 8082:127.0.0.1:8082 -Y sberger@10.5.120.2'
 alias sshi6='ssh -L 8083:127.0.0.1:8083 -Y cadmium'
-alias icat='kitten icat'
-alias cat='bat'
 alias apptalk-db='minikube start && kubectl port-forward -n apptalk-dev svc/apptalk-datastores-postgres 5432:5432 &'
 alias yay-update='yay -Syu --noconfirm'
 
@@ -33,7 +36,7 @@ upto(){
   else
     fullD=$(pwd); i=2
     predir="/$(echo $fullD | cut -d '/' -f 1,2)"
-    while [$predir != $fullD ]; do
+    while [ $predir != $fullD ]; do
       if echo $predir | grep -q $1; then
         break
       else
