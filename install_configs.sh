@@ -7,6 +7,10 @@ create_symlink() {
 	local DEST=$3
 
 	if [[ $install_type == "yes" ]]; then
+		if [[ -L $DEST && $(readlink "$DEST") == "$SRC" ]]; then
+			echo "Symlink $DEST is already set up."
+			return
+		fi
 		echo "Creating symlink for $DEST..."
 		if [ -e $DEST ]; then
 			echo "Destination $DEST already exists. How to proceed?" >&2
@@ -65,6 +69,18 @@ create_symlink $INSTALL_ZSH_CONFIG $BASE_DIR/config_files/aliases.zsh $HOME/.oh-
 create_symlink $INSTALL_TMUX_CONFIG $BASE_DIR/config_files/tmux.conf $HOME/.tmux.conf
 clone_repo $INSTALL_NVIM_CONFIG "https://github.com/SimBe195/AstroNvimConfig.git" $HOME/.config/nvim
 create_symlink $INSTALL_STARSHIP_CONFIG $BASE_DIR/config_files/starship.toml $HOME/.config/starship.toml
+
+# Codex reads skills from ~/.agents/skills, Claude Code only from ~/.claude/skills. ~/.claude/skills
+# also holds skills synced from claude.ai, so it gets one link per skill instead of a directory link.
+if [[ $INSTALL_AGENT_CONFIG == "yes" ]]; then
+	mkdir -p $HOME/.agents $HOME/.claude/skills $HOME/.codex
+fi
+create_symlink $INSTALL_AGENT_CONFIG $BASE_DIR/config_files/skills $HOME/.agents/skills
+for skill in $BASE_DIR/config_files/skills/*/; do
+	create_symlink $INSTALL_AGENT_CONFIG $skill $HOME/.claude/skills/$(basename $skill)
+done
+create_symlink $INSTALL_AGENT_CONFIG $BASE_DIR/config_files/CLAUDE.md $HOME/.claude/CLAUDE.md
+create_symlink $INSTALL_AGENT_CONFIG $BASE_DIR/config_files/CLAUDE.md $HOME/.codex/AGENTS.md
 
 echo ""
 echo "===================================="

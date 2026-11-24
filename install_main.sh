@@ -120,6 +120,7 @@ export INSTALL_ZSH_CONFIG=$(ask_install "Install zsh config")
 export INSTALL_TMUX_CONFIG=$(ask_install "Install tmux config")
 export INSTALL_NVIM_CONFIG=$(ask_install "Install Neovim config")
 export INSTALL_STARSHIP_CONFIG=$(ask_install "Install starship prompt config")
+export INSTALL_AGENT_CONFIG=$(ask_install "Install Claude Code and Codex skills and instructions")
 
 # Call installation sub-scripts
 BASE_DIR=$(dirname "$(readlink -f "$0")")

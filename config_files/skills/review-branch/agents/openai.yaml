@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Branch"
+  short_description: "Design, compatibility, security, test and style review of a branch or PR, with extra rules for RASR, apptek_asr and AppTalk"
+  default_prompt: "Use $review-branch to review the current branch against its base."

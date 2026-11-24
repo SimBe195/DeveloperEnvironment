@@ -15,5 +15,6 @@ Includes:
  - ripgrep installation
  - Lazygit installation
  - gdu diskusage installation
+ - Claude Code and Codex config: skills (`config_files/skills`, linked to `~/.agents/skills` and per skill into `~/.claude/skills`) and global instructions (`config_files/CLAUDE.md`, linked to `~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md`). After adding a skill, run `INSTALL_AGENT_CONFIG=yes ./install_configs.sh` so Claude Code picks it up.
 
 Each step is optional and the installations can either be done locally (if not sudo rights are available) or system-wide.
